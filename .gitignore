@@ -1,0 +1,32 @@
+---
+
+### 📄 **.gitignore file (for Java projects)**
+
+```gitignore
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ/DrJava files 
+*.ctxt
+*.prefs
+
+# Mac OS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# Eclipse / IntelliJ / NetBeans project files
+*.iml
+.idea/
+*.ipr
+*.iws
+target/
+out/
+
+# Backup files
+*~
+*.swp
