@@ -3,7 +3,7 @@
 
 # Gomoku Java Game
 
-This is a Java 8 implementation of the classic board game **Gomoku**, developed as a class project.
+This is a Java 8 implementation of the classic board game **Gomoku**, developed as a project for an introductory Java course.
 
 ### 🙌 Author
 Krina Amin
