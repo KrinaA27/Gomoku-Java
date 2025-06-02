@@ -84,7 +84,7 @@ public class Gomoku extends Application{
         if (indexR == 0 && indexC !=0) {
           // labels the columns as A,B,C, ...
           javafx.scene.control.Label label = new javafx.scene.control.Label(String.valueOf((char)('A' + indexC - 1)));
-          label.setStyle("-fx-font-weight: bold;");
+          label.setStyle("-fx-font-weight: bold;" + "-fx-text-fill: black;");
           board.add(label, indexC, indexR);
         }
         
@@ -92,7 +92,7 @@ public class Gomoku extends Application{
         else if (indexC == 0 && indexR !=0){
           // labels the rows as A,B,C, ...
           javafx.scene.control.Label label = new javafx.scene.control.Label(String.valueOf(indexR));
-          label.setStyle("-fx-font-weight: bold;");
+          label.setStyle("-fx-font-weight: bold;" + "-fx-text-fill: black;");
           board.add(label, indexC, indexR);
         }
        
@@ -104,8 +104,12 @@ public class Gomoku extends Application{
           // prevents resizing when the graphic is added
           b.setPrefSize(30, 30);
           b.setMaxSize(30, 30);
-          // formats the buttons to look like green tiles
-          b.setStyle("-fx-background-color: #228B22; -fx-border-color: white; -fx-border-width: 0.5px;");
+          // formats the buttons to fit with background
+          b.setStyle(
+            "-fx-background-color: transparent;" +
+            "-fx-border-color: black;" +
+            "-fx-border-width: 0.5px;"
+          );
           // locks the values for the index per iteration to make them effectively final
           int finalR = indexR;
           int finalC = indexC;
@@ -142,7 +146,7 @@ public class Gomoku extends Application{
                 case "win":
                   // formatting of win text
                   statusLabel.setText("Player of " + (player == 1 ? "Black" : "White") + " Tiles Wins!");
-                  statusLabel.setStyle("-fx-font-size: 35px; -fx-font-weight: bold;");
+                  statusLabel.setStyle("-fx-font-size: 35px; -fx-font-weight: bold; -fx-text-fill: white;");
                   statusLabel.setMaxWidth(Double.MAX_VALUE);
                   statusLabel.setAlignment(javafx.geometry.Pos.CENTER);
                   // animating the status label upon win
@@ -161,16 +165,19 @@ public class Gomoku extends Application{
                   boardButtons[finalR - 1][finalC - 1].setGraphic(null);
                   used[0] = false;
                   statusLabel.setText("Illegal move: " + result + ". Try again.");
+                  statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
                   return;
                 case "three-three":
                   boardState[finalR - 1][finalC - 1] = 0;
                   boardButtons[finalR - 1][finalC - 1].setGraphic(null);
                   used[0] = false;
                   statusLabel.setText("Illegal move: " + result + ". Try again.");
+                  statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
                   return;
                 case "normal":
                   isBlackTurn = !isBlackTurn;
                   statusLabel.setText("Player of " + (isBlackTurn ? "Black" : "White") + " Tiles's turn");
+                  statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
                   break;
               }
               // calls animation method
@@ -189,13 +196,35 @@ public class Gomoku extends Application{
     // relaunches the game
     resetButton.setOnAction(e -> start(primaryStage));
     
+    // creates StackPane to apply the background
+    StackPane boardWrapper = new StackPane(board);
+    boardWrapper.setStyle(
+        "-fx-background-image: url('gradient_texture.jpg');" +
+        "-fx-background-size: cover;" +
+        "-fx-border-color: #3f2a14;" +
+        "-fx-border-width: 2px;"
+    );
+    // sets the size of background image to be right behind board
+    int boardWidth = (columns * 30) + 5;
+    int boardHeight = rows * 30 + 5;
+    boardWrapper.setPrefWidth(boardWidth);
+    boardWrapper.setPrefHeight(boardHeight);
+    
     // declares a vertical layout with spacing
     VBox contentBox = new VBox(10);
     // centers it
     contentBox.setAlignment(javafx.geometry.Pos.CENTER);
-    contentBox.getChildren().addAll(board, statusLabel, resetButton);
+    contentBox.getChildren().addAll(boardWrapper, statusLabel, resetButton);
+    // formats VBox to fit with boardWrapper
+    VBox.setVgrow(boardWrapper, javafx.scene.layout.Priority.NEVER);
+    boardWrapper.setMaxWidth(boardWidth);
     // creates outer wrapper to center everything
     StackPane root = new StackPane(contentBox);
+    // sets background color to a wood image
+    root.setStyle(
+      "-fx-background-image: url('wood_texture.jpg');" +
+      "-fx-background-size: cover;"
+    );
     // makes the label look better
     statusLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
     
