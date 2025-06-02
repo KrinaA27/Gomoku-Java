@@ -44,6 +44,13 @@ public class Gomoku extends Application{
   
   // this field stores an array which tracks the state of the board after a stone is placed
   private int[][] boardState;
+ 
+  // this field creates a GomokuLogic object
+  private GomokuLogic gomokuLogic;
+  
+  // this field sets up the default number of stones needed to win
+  private int toWin = 5;
+
   
   // this method allows the user to change the dimensions of the board
   public void setDimensions(int columns, int rows){
@@ -62,8 +69,12 @@ public class Gomoku extends Application{
     GridPane board = new GridPane();
     // sets the board up to look like a gomuko grid
     board.setPadding(new Insets(10));
+    // centers the contents of the grid
+    board.setAlignment(javafx.geometry.Pos.CENTER);
     // initializes the buttons array 
     boardButtons = new Button[rows][columns];
+    // sets up logic
+    gomokuLogic = new GomokuLogic(toWin, rows, columns);
     
      // this loop creates each button, styles them, and adds them to the gridpane
     for (int indexR = 0; indexR < rows; indexR++){
@@ -126,7 +137,7 @@ public class Gomoku extends Application{
               int player = isBlackTurn ? 1 : 2;
               boardState[finalR - 1][finalC - 1] = player;
               // loop for displaying a win screen and disabling all buttons after a player has won
-              String result = checkWin(finalR - 1, finalC - 1, player);
+              String result = gomokuLogic.checkWin(boardState, finalR - 1, finalC - 1, player);
               switch (result) {
                 case "win":
                   // formatting of win text
@@ -178,16 +189,30 @@ public class Gomoku extends Application{
     // relaunches the game
     resetButton.setOnAction(e -> start(primaryStage));
     
-    // declares a verticle layout with spacing
-    VBox root = new VBox(10);
+    // declares a vertical layout with spacing
+    VBox contentBox = new VBox(10);
     // centers it
-    root.setAlignment(javafx.geometry.Pos.CENTER);
-    // adds it to the board
-    root.getChildren().addAll(board, statusLabel, resetButton);
+    contentBox.setAlignment(javafx.geometry.Pos.CENTER);
+    contentBox.getChildren().addAll(board, statusLabel, resetButton);
+    // creates outer wrapper to center everything
+    StackPane root = new StackPane(contentBox);
     // makes the label look better
     statusLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+    
     // sets up the scene and ensures there is enough space to see the board clearly
-    Scene scene = new Scene(root, columns * tileSize, rows * tileSize + labelAndButtonHeight);
+    
+    // for smaller boards
+    int minWidth = 450;
+    int minHeight = 400;
+    
+    // for larger boards
+    int calculatedWidth = columns * tileSize;
+    int calculatedHeight = rows * tileSize + labelAndButtonHeight;
+    
+    int finalWidth = Math.max(calculatedWidth, minWidth);
+    int finalHeight = Math.max(calculatedHeight, minHeight);
+    Scene scene = new Scene(root, finalWidth, finalHeight);
+    
     // sets the title of the stage 
     primaryStage.setTitle("Gomoku Game");
     // sets up the stage
@@ -202,7 +227,14 @@ public class Gomoku extends Application{
     try {
       // if the user only provides one argument, it is treated as the number of connected blocks to win
       if (args.size() == 1) {
-        toWin = Integer.parseInt(args.get(0));    
+        int parsed = Integer.parseInt(args.get(0));
+        if (parsed == 3) {
+          System.out.println("Invalid arguments, 3 tiles to win violates game rules. Defaults used instead.");
+          toWin = 5;
+        } 
+        else {
+          toWin = parsed;
+        } 
       } 
       // if the user provides two arguments, they are treated as the board dimensions
       else if (args.size() == 2) {
@@ -211,9 +243,21 @@ public class Gomoku extends Application{
       } 
       // if the user provides three arguments: first is used for game rules and others for board dimensions
       else if (args.size() == 3) {
-        toWin = Integer.parseInt(args.get(0));
-        rows = Integer.parseInt(args.get(1));
-        columns = Integer.parseInt(args.get(2));
+        int parsed = Integer.parseInt(args.get(0));
+        if (parsed == 3) {
+          System.out.println("Invalid arguments, 3 tiles to win violates game rules. Defaults used instead.");
+          toWin = 5;
+        }
+        else {
+          toWin = parsed;
+          rows = Integer.parseInt(args.get(1));
+          columns = Integer.parseInt(args.get(2));
+        }
+      }
+      if (rows < 5 || columns < 5) {
+        System.out.println("Invalid board size. Minimum is 5x5. Defaults used instead.");
+        rows = 19;
+        columns = 19;
       }
     } 
     // If any arguments can't be converted to a number, prints an error message and keeps defaults
