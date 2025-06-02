@@ -1,3 +1,6 @@
+![Java](https://img.shields.io/badge/language-Java-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 # Gomoku Java Game
 
 This is a Java 8 implementation of the classic board game **Gomoku**, developed as a class project.
