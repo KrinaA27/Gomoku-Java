@@ -13,10 +13,11 @@ Gomoku (also known as Five in a Row) is a strategy board game where players take
 
 ### 💻 How to Run
 1. Make sure you have **Java 8** installed.
-2. Compile the game:
+2. Download all files for the game: Gomoku.java, GomokuLogic.java, gradient_texture.jpg, and wood_texture.jpg
+3. Compile the game:
    ```bash
    javac Gomoku.java
-3. Run the game, either directly (and use defaults) or Java Gomoku [number of tiles to win] [rows] [columns]
+4. Run the game, either directly (and use defaults) or Java Gomoku [number of tiles to win] [rows] [columns]
 
 ### 🛠 Features
 ✅ JavaFX interface 
