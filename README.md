@@ -16,7 +16,7 @@ Gomoku (also known as Five in a Row) is a strategy board game where players take
 2. Compile the game:
    ```bash
    javac Gomoku.java
-3. Run the game.
+3. Run the game, either directly (and use defaults) or Java Gomoku [number of tiles to win] [rows] [columns]
 
 ### 🛠 Features
 ✅ JavaFX interface 
