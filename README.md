@@ -5,13 +5,13 @@
 
 This is a Java 8 implementation of the classic board game **Gomoku**, developed as a project for an introductory Java course.
 
-### 🙌 Author
+### Author
 Krina Amin
 
-### 🎮 What is Gomoku?
+### What is Gomoku?
 Gomoku (also known as Five in a Row) is a strategy board game where players take turns placing black and white stones on a grid, aiming to get exactly five in a row — horizontally, vertically, or diagonally.
 
-### 💻 How to Run
+### How to Run
 1. Make sure you have **Java 8** installed.
 2. Download all files for the game: Gomoku.java, GomokuLogic.java, gradient_texture.jpg, and wood_texture.jpg
 3. Compile the game:
@@ -19,7 +19,7 @@ Gomoku (also known as Five in a Row) is a strategy board game where players take
    javac Gomoku.java
 4. Run the game, either directly (and use defaults) or Java Gomoku [number of tiles to win] [rows] [columns]
 
-### 🛠 Features
-✅ JavaFX interface 
-✅ Game logic enforcing rules (exactly five in a row, three-three, four-four checks)
-✅ Win condition detection
+### Features
+- JavaFX interface
+- Game logic enforcing rules (exactly five in a row, three-three, four-four checks)
+- Win condition detection
